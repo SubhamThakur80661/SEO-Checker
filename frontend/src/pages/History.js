@@ -16,8 +16,8 @@ function History() {
         const headers = { Authorization: `Bearer ${token}` };
 
         const [auditRes, keywordRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/audit/history', { headers }),
-          axios.get('http://localhost:5000/api/keywords/history', { headers })
+          axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/audit/history`, { headers }),
+          axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/keywords/history`, { headers })
         ]);
 
         if (auditRes.data.success) setAudits(auditRes.data.data);
