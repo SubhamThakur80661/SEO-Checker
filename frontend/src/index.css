@@ -64,37 +64,41 @@ html {
 }
 
 /* Glassmorphism layer — frosted surfaces over the ink field. Static styling
-   only; no motion, so it needs no reduced-motion guard. Fills stay dense
-   enough that paper/smoke text keeps its contrast. */
+   only; no motion, so it needs no reduced-motion guard. Fills are deliberately
+   translucent (5–25%) so the ambient gradient blobs behind show through the
+   blur; dense-text surfaces use the strong end of the range plus a soft
+   text-shadow to keep paper/smoke text readable. */
 .glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .glass-strong {
-  background: linear-gradient(135deg, rgba(30, 30, 34, 0.78), rgba(19, 19, 21, 0.68));
+  background: linear-gradient(135deg, rgba(24, 24, 28, 0.25), rgba(12, 12, 14, 0.18));
   -webkit-backdrop-filter: blur(22px) saturate(150%);
   backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .glass-soft {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Fill + blur only — for bars that keep their own Tailwind border. */
 .glass-bar {
-  background: linear-gradient(180deg, rgba(23, 23, 26, 0.72), rgba(10, 10, 11, 0.62));
+  background: linear-gradient(180deg, rgba(20, 20, 23, 0.25), rgba(10, 10, 11, 0.18));
   -webkit-backdrop-filter: blur(20px) saturate(150%);
   backdrop-filter: blur(20px) saturate(150%);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Frosted panel that sits inside the solid lime audit band. */

@@ -80,8 +80,13 @@ function AuthLayout({ title, subtitle, children, footer }) {
       <div
         ref={glowRef}
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 top-0 z-0 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-25"
+        className="pointer-events-none absolute left-0 top-0 z-0 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60"
         style={{ background: "radial-gradient(circle, rgba(215,255,62,0.22) 0%, transparent 62%)" }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-[-10%] right-[-4%] z-0 h-[480px] w-[480px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(45,212,191,0.13) 0%, transparent 65%)" }}
       />
       <div
         ref={scanRef}
@@ -153,7 +158,7 @@ function AuthLayout({ title, subtitle, children, footer }) {
             className="glass-strong relative w-full max-w-md p-6 will-change-transform sm:p-8"
             style={{
               backgroundImage:
-                "radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(215,255,62,0.07), transparent 65%)",
+                "radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(215,255,62,0.07), transparent 65%), linear-gradient(135deg, rgba(24,24,28,0.25), rgba(12,12,14,0.18))",
             }}
           >
             <span aria-hidden="true" className="absolute left-0 top-0 h-10 w-1 bg-lime" />

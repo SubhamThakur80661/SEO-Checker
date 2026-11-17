@@ -57,8 +57,9 @@ function App() {
           <ProtectedRoute>
             <div className="relative min-h-screen bg-ink font-sans text-paper selection:bg-lime selection:text-ink">
               <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0">
-                <div className="absolute -top-32 right-[8%] h-[420px] w-[420px] rounded-full opacity-60" style={{ background: "radial-gradient(circle, rgba(215,255,62,0.08) 0%, transparent 65%)" }} />
-                <div className="absolute bottom-[10%] left-[-6%] h-[460px] w-[460px] rounded-full opacity-60" style={{ background: "radial-gradient(circle, rgba(242,240,234,0.05) 0%, transparent 65%)" }} />
+                <div className="animate-drift absolute -top-32 right-[8%] h-[520px] w-[520px] rounded-full" style={{ background: "radial-gradient(circle, rgba(215,255,62,0.20) 0%, transparent 65%)" }} />
+                <div className="absolute bottom-[6%] left-[-6%] h-[560px] w-[560px] rounded-full" style={{ background: "radial-gradient(circle, rgba(45,212,191,0.14) 0%, transparent 65%)" }} />
+                <div className="absolute right-[-10%] top-[45%] h-[420px] w-[420px] rounded-full" style={{ background: "radial-gradient(circle, rgba(242,240,234,0.06) 0%, transparent 65%)" }} />
               </div>
               <header className="glass-bar sticky top-0 z-30 border-b border-white/10">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
