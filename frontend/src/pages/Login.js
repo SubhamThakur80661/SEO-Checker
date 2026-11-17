@@ -6,7 +6,7 @@ import AuthLayout from '../components/AuthLayout';
 import Magnetic from '../components/Magnetic';
 
 const inputClass =
-  'w-full bg-panel px-4 py-3 border border-white/12 text-paper placeholder:text-smoke/50 focus:ring-2 focus:ring-lime/40 focus:border-lime/60 outline-none transition-all';
+  'glass-input w-full px-4 py-3 border border-white/12 text-paper placeholder:text-smoke/50 focus:ring-2 focus:ring-lime/40 focus:border-lime/60 outline-none transition-all';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -105,7 +105,7 @@ const Login = () => {
           type="button"
           onClick={handleGuestLogin}
           disabled={isSubmitting}
-          className="flex w-full items-center justify-center gap-2 border border-white/20 bg-transparent py-3.5 font-display text-base font-bold tracking-tight text-paper transition-colors hover:border-lime hover:text-lime disabled:opacity-60"
+          className="glass-soft flex w-full items-center justify-center gap-2 border border-white/20 py-3.5 font-display text-base font-bold tracking-tight text-paper transition-colors hover:border-lime hover:text-lime disabled:opacity-60"
         >
           {isSubmitting ? <Loader2 size={19} className="animate-spin" /> : <User size={19} />}
           Continue as Guest

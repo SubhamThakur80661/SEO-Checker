@@ -68,7 +68,7 @@ function Keywords() {
         </p>
       </div>
 
-      <div className="mb-8 flex max-w-2xl items-center gap-2 border border-white/12 bg-coal p-2 transition-all focus-within:border-lime/60 focus-within:ring-2 focus-within:ring-lime/20">
+      <div className="glass-strong mb-8 flex max-w-2xl items-center gap-2 p-2 transition-all focus-within:border-lime/60 focus-within:ring-2 focus-within:ring-lime/20">
         <div className="pl-3 text-smoke">
           <KeyRound size={19} />
         </div>
@@ -101,7 +101,7 @@ function Keywords() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="max-w-3xl border border-white/12 bg-coal p-6 sm:p-7"
+          className="glass max-w-3xl p-6 sm:p-7"
         >
           <div className="mb-6 flex items-center justify-between gap-4">
             <h3 className="font-display text-lg font-extrabold tracking-tight text-paper">
@@ -120,7 +120,7 @@ function Keywords() {
                 className={`flex items-center gap-1.5 border px-4 py-2 text-sm font-medium transition-colors ${
                   copied === k
                     ? 'border-lime bg-lime text-ink'
-                    : 'border-white/15 bg-panel text-paper hover:border-lime/70 hover:text-lime'
+                    : 'glass-soft text-paper hover:border-lime/70 hover:text-lime'
                 }`}
                 title="Click to copy"
               >

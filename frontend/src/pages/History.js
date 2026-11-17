@@ -68,7 +68,7 @@ function History() {
       </div>
 
       {audits.length > 0 && (
-        <div className="mb-4 h-[360px] border border-white/12 bg-coal p-6 sm:p-7">
+        <div className="glass mb-4 h-[360px] p-6 sm:p-7">
           <h3 className="mb-5 flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-paper">
             <Activity size={20} className="text-lime" />
             Score over time
@@ -87,7 +87,7 @@ function History() {
               <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#A3A39B' }} tickMargin={12} axisLine={false} tickLine={false} />
               <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: '#A3A39B' }} axisLine={false} tickLine={false} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#17171A', borderRadius: '0px', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}
+                contentStyle={{ backgroundColor: 'rgba(23,23,26,0.78)', borderRadius: '0px', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 8px 24px rgba(0,0,0,0.4)', backdropFilter: 'blur(14px)' }}
                 itemStyle={{ color: '#F2F0EA', fontWeight: '600' }}
                 cursor={{ stroke: '#D7FF3E', strokeWidth: 2 }}
               />
@@ -97,19 +97,19 @@ function History() {
       )}
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="border border-white/12 bg-coal p-6">
+        <div className="glass p-6">
           <h3 className="mb-5 flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-paper">
             <Activity size={20} className="text-lime" />
             Recent audits
           </h3>
           {audits.length === 0 ? (
-            <p className="border border-white/10 bg-panel p-4 text-sm text-smoke">
+            <p className="glass-soft p-4 text-sm text-smoke">
               Nothing here yet. Run an audit and it will show up here.
             </p>
           ) : (
             <div className="space-y-3">
               {audits.slice(0, 5).map(audit => (
-                <div key={audit._id} className="flex items-center justify-between gap-3 border border-white/10 bg-panel p-4">
+                <div key={audit._id} className="glass-soft flex items-center justify-between gap-3 p-4">
                   <div className="overflow-hidden">
                     <p className="truncate font-semibold text-paper">{audit.url}</p>
                     <p className="mt-0.5 text-xs text-smoke">{new Date(audit.createdAt).toLocaleDateString()}</p>
@@ -123,26 +123,26 @@ function History() {
           )}
         </div>
 
-        <div className="border border-white/12 bg-coal p-6">
+        <div className="glass p-6">
           <h3 className="mb-5 flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-paper">
             <Key size={20} className="text-lime" />
             Recent keyword searches
           </h3>
           {keywords.length === 0 ? (
-            <p className="border border-white/10 bg-panel p-4 text-sm text-smoke">
+            <p className="glass-soft p-4 text-sm text-smoke">
               Nothing here yet. Try a topic in Keyword Research.
             </p>
           ) : (
             <div className="space-y-3">
               {keywords.slice(0, 5).map(kw => (
-                <div key={kw._id} className="border border-white/10 bg-panel p-4">
+                <div key={kw._id} className="glass-soft p-4">
                   <div className="mb-2.5 flex items-center justify-between gap-3">
                     <p className="truncate font-semibold capitalize text-paper">{kw.topic}</p>
                     <p className="shrink-0 text-xs text-smoke">{new Date(kw.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {kw.results?.slice(0, 3).map((r, i) => (
-                      <span key={i} className="border border-white/12 bg-coal px-2.5 py-1 text-xs font-medium text-paper">
+                      <span key={i} className="glass-soft px-2.5 py-1 text-xs font-medium text-paper">
                         {r.keyword}
                       </span>
                     ))}

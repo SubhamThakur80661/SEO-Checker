@@ -89,7 +89,7 @@ function AuthLayout({ title, subtitle, children, footer }) {
         className="pointer-events-none absolute left-0 z-10 h-px w-full bg-lime/80 opacity-0 shadow-[0_0_24px_2px_rgba(215,255,62,0.55)]"
       />
 
-      <header className="relative z-20 flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-8">
+      <header className="glass-bar relative z-20 flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-8">
         <div className="flex items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center bg-lime text-ink">
             <TrendingUp size={20} strokeWidth={2.5} />
@@ -150,7 +150,7 @@ function AuthLayout({ title, subtitle, children, footer }) {
             onMouseMove={onPanelMove}
             onMouseLeave={onPanelLeave}
             data-intro
-            className="relative w-full max-w-md border border-white/12 bg-coal/90 p-6 shadow-lift backdrop-blur-sm will-change-transform sm:p-8"
+            className="glass-strong relative w-full max-w-md p-6 will-change-transform sm:p-8"
             style={{
               backgroundImage:
                 "radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(215,255,62,0.07), transparent 65%)",

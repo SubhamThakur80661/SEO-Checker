@@ -78,9 +78,9 @@ function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.96 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="fixed bottom-24 right-5 z-50 flex h-[560px] max-h-[80vh] w-[380px] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden border border-white/12 bg-coal shadow-lift md:bottom-6 md:right-6"
+            className="glass-strong fixed bottom-24 right-5 z-50 flex h-[560px] max-h-[80vh] w-[380px] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden md:bottom-6 md:right-6"
           >
-            <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-ink p-4 text-paper">
+            <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-white/[0.04] p-4 text-paper">
               <div className="flex items-center gap-3">
                 <div className="bg-lime p-2 text-ink">
                   <Bot size={19} />
@@ -99,7 +99,7 @@ function ChatBot() {
               </button>
             </div>
 
-            <div className="flex-1 space-y-4 overflow-y-auto bg-ink/60 p-4">
+            <div className="flex-1 space-y-4 overflow-y-auto bg-ink/40 p-4">
               {chat.map((c, i) => (
                 <div key={i} className="flex flex-col gap-3">
                   {c.q && (
@@ -125,7 +125,7 @@ function ChatBot() {
                       <div className="flex h-6 w-6 shrink-0 items-center justify-center bg-lime/15 text-lime">
                         <Bot size={13} />
                       </div>
-                      <div className="border border-white/10 bg-panel p-3 text-sm leading-relaxed text-paper whitespace-pre-wrap">
+                      <div className="glass-soft p-3 text-sm leading-relaxed text-paper whitespace-pre-wrap">
                         {c.a}
                       </div>
                     </motion.div>
@@ -137,7 +137,7 @@ function ChatBot() {
                   <div className="flex h-6 w-6 shrink-0 items-center justify-center bg-lime/15 text-lime">
                     <Bot size={13} />
                   </div>
-                  <div className="flex gap-1 border border-white/10 bg-panel p-4">
+                  <div className="glass-soft flex gap-1 p-4">
                     {[0, 0.2, 0.4].map((delay) => (
                       <motion.div
                         key={delay}
@@ -152,7 +152,7 @@ function ChatBot() {
               <div ref={bottomRef} />
             </div>
 
-            <form onSubmit={ask} className="flex shrink-0 items-center gap-2 border-t border-white/10 bg-coal p-3">
+            <form onSubmit={ask} className="flex shrink-0 items-center gap-2 border-t border-white/10 bg-white/[0.04] p-3">
               <input
                 placeholder="Ask about SEO…"
                 value={message}

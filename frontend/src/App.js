@@ -55,8 +55,12 @@ function App() {
 
         <Route path="*" element={
           <ProtectedRoute>
-            <div className="min-h-screen bg-ink font-sans text-paper selection:bg-lime selection:text-ink">
-              <header className="sticky top-0 z-30 border-b border-white/10 bg-ink/90 backdrop-blur">
+            <div className="relative min-h-screen bg-ink font-sans text-paper selection:bg-lime selection:text-ink">
+              <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0">
+                <div className="absolute -top-32 right-[8%] h-[420px] w-[420px] rounded-full opacity-60" style={{ background: "radial-gradient(circle, rgba(215,255,62,0.08) 0%, transparent 65%)" }} />
+                <div className="absolute bottom-[10%] left-[-6%] h-[460px] w-[460px] rounded-full opacity-60" style={{ background: "radial-gradient(circle, rgba(242,240,234,0.05) 0%, transparent 65%)" }} />
+              </div>
+              <header className="glass-bar sticky top-0 z-30 border-b border-white/10">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
                   <Logo />
                   <nav className="hidden items-center gap-7 md:flex">
@@ -68,7 +72,7 @@ function App() {
                   </nav>
                   {user && (
                     <div className="flex items-center gap-3">
-                      <span className="hidden items-center gap-1.5 border border-white/12 px-3 py-1.5 font-mono text-xs text-paper sm:flex">
+                      <span className="glass-soft hidden items-center gap-1.5 px-3 py-1.5 font-mono text-xs text-paper sm:flex">
                         <Coins size={14} className="text-lime" />
                         {user.credits}
                         <span className="text-smoke">credits</span>
@@ -89,7 +93,7 @@ function App() {
                 </div>
               </header>
 
-              <main className="mx-auto w-full max-w-7xl flex-1 px-5 pb-28 pt-8 sm:px-8 sm:pt-12 md:pb-16">
+              <main className="relative z-10 mx-auto w-full max-w-7xl flex-1 px-5 pb-28 pt-8 sm:px-8 sm:pt-12 md:pb-16">
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/audit" element={<Audit />} />
@@ -98,7 +102,7 @@ function App() {
                 </Routes>
               </main>
 
-              <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-white/10 bg-ink/95 backdrop-blur md:hidden">
+              <nav className="glass-bar fixed inset-x-0 bottom-0 z-30 flex border-t border-white/10 md:hidden">
                 {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
                   <NavLink key={to} to={to} end={end} className={tabClass}>
                     <Icon size={19} strokeWidth={2.2} /> {label}

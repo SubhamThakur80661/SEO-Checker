@@ -6,7 +6,7 @@ import AuthLayout from '../components/AuthLayout';
 import Magnetic from '../components/Magnetic';
 
 const inputClass =
-  'w-full bg-panel px-4 py-3 border border-white/12 text-paper placeholder:text-smoke/50 focus:ring-2 focus:ring-lime/40 focus:border-lime/60 outline-none transition-all';
+  'glass-input w-full px-4 py-3 border border-white/12 text-paper placeholder:text-smoke/50 focus:ring-2 focus:ring-lime/40 focus:border-lime/60 outline-none transition-all';
 
 const Signup = () => {
   const [name, setName] = useState('');

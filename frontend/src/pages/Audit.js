@@ -102,7 +102,7 @@ function Audit() {
         </p>
       </div>
 
-      <div className="mb-8 flex items-center gap-2 border border-white/12 bg-coal p-2 transition-all focus-within:border-lime/60 focus-within:ring-2 focus-within:ring-lime/20">
+      <div className="glass-strong mb-8 flex items-center gap-2 p-2 transition-all focus-within:border-lime/60 focus-within:ring-2 focus-within:ring-lime/20">
         <div className="pl-3 text-smoke">
           <LinkIcon size={19} />
         </div>
@@ -137,27 +137,27 @@ function Audit() {
           transition={{ duration: 0.3 }}
           className="grid grid-cols-1 gap-4 md:grid-cols-3"
         >
-          <div className="flex flex-col items-center justify-center border border-white/12 bg-coal p-6">
+          <div className="glass flex flex-col items-center justify-center p-6">
             <h3 className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">Overall score</h3>
             <ScoreRing score={result.seo.score} />
           </div>
 
-          <div className="border border-white/12 bg-coal p-6 md:col-span-2">
+          <div className="glass p-6 md:col-span-2">
             <h3 className="mb-5 flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-paper">
               <FileText className="text-lime" size={20} />
               What the page says about itself
             </h3>
-            <div className="mb-4 border border-white/10 bg-panel p-4">
+            <div className="glass-soft mb-4 p-4">
               <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-smoke">Title tag</span>
               <p className="mt-1 font-semibold leading-snug text-paper">{result.site.title}</p>
             </div>
-            <div className="border border-white/10 bg-panel p-4">
+            <div className="glass-soft p-4">
               <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-smoke">Meta description</span>
               <p className="mt-1 leading-relaxed text-smoke">{result.site.metaDescription}</p>
             </div>
           </div>
 
-          <div className="border border-white/12 bg-coal p-6 sm:p-7 md:col-span-3">
+          <div className="glass p-6 sm:p-7 md:col-span-3">
             <h3 className="mb-5 flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-paper">
               <Sparkles className="text-lime" size={20} />
               What to fix

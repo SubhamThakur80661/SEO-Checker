@@ -61,9 +61,9 @@ function Dashboard() {
         </p>
       </div>
 
-      <div data-intro className="mb-10 border-t border-white/10 sm:mb-14">
+      <div data-intro className="glass mb-10 px-5 py-2 sm:mb-14 sm:px-6">
         {stats.map(({ label, value, note }) => (
-          <div key={label} className="group flex flex-wrap items-baseline gap-x-6 gap-y-1 border-b border-white/10 py-5 transition-colors hover:border-lime/40">
+          <div key={label} className="group flex flex-wrap items-baseline gap-x-6 gap-y-1 border-b border-white/10 py-5 transition-colors last:border-b-0 hover:border-lime/40">
             <span className="w-36 shrink-0 font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">{label}</span>
             <span className="font-display text-4xl font-black tracking-tight text-paper sm:text-5xl">{value}</span>
             <span className="text-sm text-smoke">{note}</span>
@@ -71,8 +71,8 @@ function Dashboard() {
         ))}
       </div>
 
-      <Link to="/audit" data-intro className="group mb-4 block bg-lime text-ink">
-        <div className="flex flex-col gap-6 p-7 sm:flex-row sm:items-end sm:justify-between sm:p-10">
+      <Link to="/audit" data-intro className="group mb-4 block bg-lime p-3 text-ink sm:p-4">
+        <div className="glass-lime flex flex-col gap-6 p-7 sm:flex-row sm:items-end sm:justify-between sm:p-10">
           <div>
             <span className="mb-4 flex h-12 w-12 items-center justify-center border border-ink/25">
               <FileText size={22} />
@@ -93,7 +93,7 @@ function Dashboard() {
       </Link>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Link to="/keywords" data-intro className="group block border border-white/12 bg-coal p-7 transition-colors hover:border-lime/60">
+        <Link to="/keywords" data-intro className="glass group block p-7 transition-colors hover:border-lime/60">
           <span className="mb-5 flex h-12 w-12 items-center justify-center border border-white/12 text-lime">
             <Search size={22} />
           </span>
@@ -107,7 +107,7 @@ function Dashboard() {
           </span>
         </Link>
 
-        <Link to="/audit" data-intro className="group block border border-white/12 bg-coal p-7 transition-colors hover:border-lime/60">
+        <Link to="/audit" data-intro className="glass group block p-7 transition-colors hover:border-lime/60">
           <span className="mb-5 flex h-12 w-12 items-center justify-center border border-white/12 text-lime">
             <ListChecks size={22} />
           </span>
