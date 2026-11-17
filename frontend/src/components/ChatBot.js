@@ -9,7 +9,7 @@ function ChatBot() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([
-    { q: "", a: "Ask me anything about SEO — titles, keywords, backlinks, that sort of thing." }
+    { q: "", a: "Ask me anything about SEO. Titles, keywords, backlinks, that sort of thing." }
   ]);
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
@@ -63,7 +63,7 @@ function ChatBot() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setOpen(true)}
-            className="fixed bottom-6 right-6 bg-olivewood text-white p-4 rounded-full shadow-lift hover:bg-moss transition-colors z-50 flex items-center justify-center"
+            className="fixed bottom-24 right-5 z-50 flex items-center justify-center bg-lime p-4 text-ink shadow-lift transition-colors hover:bg-paper md:bottom-6 md:right-6"
             aria-label="Open SEO assistant"
           >
             <MessageSquare size={24} />
@@ -78,40 +78,40 @@ function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.96 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="fixed bottom-6 right-6 w-[380px] max-w-[calc(100vw-3rem)] h-[560px] max-h-[80vh] bg-white rounded-2xl shadow-lift border border-sand/60 flex flex-col overflow-hidden z-50"
+            className="fixed bottom-24 right-5 z-50 flex h-[560px] max-h-[80vh] w-[380px] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden border border-white/12 bg-coal shadow-lift md:bottom-6 md:right-6"
           >
-            <div className="bg-olivewood p-4 flex items-center justify-between text-white shrink-0">
+            <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-ink p-4 text-paper">
               <div className="flex items-center gap-3">
-                <div className="bg-white/10 p-2 rounded-lg">
+                <div className="bg-lime p-2 text-ink">
                   <Bot size={19} />
                 </div>
                 <div>
-                  <h4 className="font-semibold leading-tight">SEO Assistant</h4>
-                  <p className="text-parchment/60 text-xs">Ask about SEO</p>
+                  <h4 className="font-display font-extrabold leading-tight tracking-tight">SEO Assistant</h4>
+                  <p className="text-xs text-smoke">Ask about SEO</p>
                 </div>
               </div>
               <button
                 onClick={() => setOpen(false)}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                className="p-2 text-smoke transition-colors hover:bg-white/10 hover:text-paper"
                 aria-label="Close chat"
               >
                 <X size={19} />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 bg-paper space-y-4">
+            <div className="flex-1 space-y-4 overflow-y-auto bg-ink/60 p-4">
               {chat.map((c, i) => (
                 <div key={i} className="flex flex-col gap-3">
                   {c.q && (
                     <motion.div
                       initial={{ opacity: 0, x: 16 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="self-end max-w-[85%] flex items-end gap-2"
+                      className="flex max-w-[85%] items-end gap-2 self-end"
                     >
-                      <div className="bg-olivewood text-white p-3 rounded-2xl rounded-br-sm text-sm">
+                      <div className="bg-lime p-3 text-sm font-medium text-ink">
                         {c.q}
                       </div>
-                      <div className="w-6 h-6 rounded-full bg-sand/60 flex items-center justify-center text-bark shrink-0">
+                      <div className="flex h-6 w-6 shrink-0 items-center justify-center bg-white/10 text-smoke">
                         <User size={13} />
                       </div>
                     </motion.div>
@@ -120,12 +120,12 @@ function ChatBot() {
                     <motion.div
                       initial={{ opacity: 0, x: -16 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="self-start max-w-[85%] flex items-end gap-2"
+                      className="flex max-w-[85%] items-end gap-2 self-start"
                     >
-                      <div className="w-6 h-6 rounded-full bg-sage/20 flex items-center justify-center text-moss shrink-0">
+                      <div className="flex h-6 w-6 shrink-0 items-center justify-center bg-lime/15 text-lime">
                         <Bot size={13} />
                       </div>
-                      <div className="bg-white border border-sand/60 text-olivewood p-3 rounded-2xl rounded-bl-sm shadow-card text-sm leading-relaxed whitespace-pre-wrap">
+                      <div className="border border-white/10 bg-panel p-3 text-sm leading-relaxed text-paper whitespace-pre-wrap">
                         {c.a}
                       </div>
                     </motion.div>
@@ -133,15 +133,15 @@ function ChatBot() {
                 </div>
               ))}
               {loading && (
-                <div className="self-start max-w-[85%] flex items-end gap-2">
-                  <div className="w-6 h-6 rounded-full bg-sage/20 flex items-center justify-center text-moss shrink-0">
+                <div className="flex max-w-[85%] items-end gap-2 self-start">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center bg-lime/15 text-lime">
                     <Bot size={13} />
                   </div>
-                  <div className="bg-white border border-sand/60 p-4 rounded-2xl rounded-bl-sm shadow-card flex gap-1">
+                  <div className="flex gap-1 border border-white/10 bg-panel p-4">
                     {[0, 0.2, 0.4].map((delay) => (
                       <motion.div
                         key={delay}
-                        className="w-1.5 h-1.5 bg-bark/50 rounded-full"
+                        className="h-1.5 w-1.5 rounded-full bg-smoke"
                         animate={{ y: [0, -5, 0] }}
                         transition={{ repeat: Infinity, duration: 0.6, delay }}
                       />
@@ -152,18 +152,18 @@ function ChatBot() {
               <div ref={bottomRef} />
             </div>
 
-            <form onSubmit={ask} className="p-3 bg-white border-t border-sand/60 flex items-center gap-2 shrink-0">
+            <form onSubmit={ask} className="flex shrink-0 items-center gap-2 border-t border-white/10 bg-coal p-3">
               <input
                 placeholder="Ask about SEO…"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="flex-1 border-none outline-none py-2 px-2 text-sm text-olivewood bg-transparent placeholder:text-bark/50"
+                className="flex-1 border-none bg-transparent px-2 py-2 text-sm text-paper outline-none placeholder:text-smoke/50"
                 aria-label="Your SEO question"
               />
               <button
                 type="submit"
                 disabled={!message.trim() || loading}
-                className="bg-olivewood hover:bg-moss disabled:opacity-40 text-white p-2.5 rounded-lg transition-colors"
+                className="bg-lime p-2.5 text-ink transition-colors hover:bg-paper disabled:opacity-40"
                 aria-label="Send message"
               >
                 <Send size={17} />

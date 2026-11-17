@@ -7,9 +7,9 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function scoreBadge(score) {
-  if (score >= 90) return 'bg-sage/20 text-moss border-sage/40';
-  if (score >= 70) return 'bg-sand/60 text-olivewood border-sand';
-  return 'bg-red-50 text-red-700 border-red-200';
+  if (score >= 90) return 'bg-lime text-ink border-lime';
+  if (score >= 70) return 'bg-white/10 text-paper border-white/20';
+  return 'bg-red-500/10 text-red-300 border-red-400/40';
 }
 
 function History() {
@@ -46,8 +46,8 @@ function History() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 size={28} className="animate-spin text-sage" />
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 size={28} className="animate-spin text-lime" />
       </div>
     );
   }
@@ -57,19 +57,20 @@ function History() {
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="max-w-5xl mx-auto"
+      className="mx-auto max-w-5xl"
     >
       <div className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-olivewood tracking-tight">History</h1>
-        <p className="text-lg text-bark mt-2">
+        <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-lime">03 / History</p>
+        <h1 className="font-display font-wide text-4xl font-black tracking-tight sm:text-6xl">History</h1>
+        <p className="mt-3 text-base leading-relaxed text-smoke sm:text-lg">
           Your past audits and keyword searches, in one place.
         </p>
       </div>
 
       {audits.length > 0 && (
-        <div className="bg-white p-6 sm:p-7 rounded-2xl border border-sand/60 shadow-card mb-4 h-[360px]">
-          <h3 className="text-lg font-bold text-olivewood mb-5 flex items-center gap-2">
-            <Activity size={20} className="text-moss" />
+        <div className="mb-4 h-[360px] border border-white/12 bg-coal p-6 sm:p-7">
+          <h3 className="mb-5 flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-paper">
+            <Activity size={20} className="text-lime" />
             Score over time
           </h3>
           <ResponsiveContainer width="100%" height="82%">
@@ -77,43 +78,43 @@ function History() {
               <Line
                 type="monotone"
                 dataKey="score"
-                stroke="#5F6B4C"
+                stroke="#D7FF3E"
                 strokeWidth={3}
-                dot={{ fill: '#FBFAF7', stroke: '#5F6B4C', strokeWidth: 2, r: 5 }}
-                activeDot={{ fill: '#5F6B4C', stroke: '#FBFAF7', strokeWidth: 2, r: 7 }}
+                dot={{ fill: '#0A0A0B', stroke: '#D7FF3E', strokeWidth: 2, r: 5 }}
+                activeDot={{ fill: '#D7FF3E', stroke: '#0A0A0B', strokeWidth: 2, r: 7 }}
               />
-              <CartesianGrid stroke="#D6C9B3" strokeDasharray="4 4" vertical={false} />
-              <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#645D51' }} tickMargin={12} axisLine={false} tickLine={false} />
-              <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: '#645D51' }} axisLine={false} tickLine={false} />
+              <CartesianGrid stroke="#232326" strokeDasharray="4 4" vertical={false} />
+              <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#A3A39B' }} tickMargin={12} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: '#A3A39B' }} axisLine={false} tickLine={false} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#FBFAF7', borderRadius: '12px', border: '1px solid #D6C9B3', boxShadow: '0 4px 16px rgba(52,56,49,0.08)' }}
-                itemStyle={{ color: '#343831', fontWeight: '600' }}
-                cursor={{ stroke: '#B5C19E', strokeWidth: 2 }}
+                contentStyle={{ backgroundColor: '#17171A', borderRadius: '0px', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}
+                itemStyle={{ color: '#F2F0EA', fontWeight: '600' }}
+                cursor={{ stroke: '#D7FF3E', strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-white p-6 rounded-2xl border border-sand/60 shadow-card">
-          <h3 className="text-lg font-bold text-olivewood mb-5 flex items-center gap-2">
-            <Activity size={20} className="text-moss" />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="border border-white/12 bg-coal p-6">
+          <h3 className="mb-5 flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-paper">
+            <Activity size={20} className="text-lime" />
             Recent audits
           </h3>
           {audits.length === 0 ? (
-            <p className="text-sm text-bark bg-paper p-4 rounded-xl border border-sand/50">
+            <p className="border border-white/10 bg-panel p-4 text-sm text-smoke">
               Nothing here yet. Run an audit and it will show up here.
             </p>
           ) : (
             <div className="space-y-3">
               {audits.slice(0, 5).map(audit => (
-                <div key={audit._id} className="flex items-center justify-between gap-3 p-4 bg-paper border border-sand/50 rounded-xl">
+                <div key={audit._id} className="flex items-center justify-between gap-3 border border-white/10 bg-panel p-4">
                   <div className="overflow-hidden">
-                    <p className="font-semibold text-olivewood truncate">{audit.url}</p>
-                    <p className="text-xs text-bark mt-0.5">{new Date(audit.createdAt).toLocaleDateString()}</p>
+                    <p className="truncate font-semibold text-paper">{audit.url}</p>
+                    <p className="mt-0.5 text-xs text-smoke">{new Date(audit.createdAt).toLocaleDateString()}</p>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-bold border shrink-0 ${scoreBadge(audit.seoScore)}`}>
+                  <span className={`shrink-0 border px-3 py-1 text-sm font-bold ${scoreBadge(audit.seoScore)}`}>
                     {audit.seoScore}
                   </span>
                 </div>
@@ -122,31 +123,31 @@ function History() {
           )}
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-sand/60 shadow-card">
-          <h3 className="text-lg font-bold text-olivewood mb-5 flex items-center gap-2">
-            <Key size={20} className="text-moss" />
+        <div className="border border-white/12 bg-coal p-6">
+          <h3 className="mb-5 flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-paper">
+            <Key size={20} className="text-lime" />
             Recent keyword searches
           </h3>
           {keywords.length === 0 ? (
-            <p className="text-sm text-bark bg-paper p-4 rounded-xl border border-sand/50">
+            <p className="border border-white/10 bg-panel p-4 text-sm text-smoke">
               Nothing here yet. Try a topic in Keyword Research.
             </p>
           ) : (
             <div className="space-y-3">
               {keywords.slice(0, 5).map(kw => (
-                <div key={kw._id} className="p-4 bg-paper border border-sand/50 rounded-xl">
-                  <div className="flex justify-between items-center gap-3 mb-2.5">
-                    <p className="font-semibold text-olivewood capitalize truncate">{kw.topic}</p>
-                    <p className="text-xs text-bark shrink-0">{new Date(kw.createdAt).toLocaleDateString()}</p>
+                <div key={kw._id} className="border border-white/10 bg-panel p-4">
+                  <div className="mb-2.5 flex items-center justify-between gap-3">
+                    <p className="truncate font-semibold capitalize text-paper">{kw.topic}</p>
+                    <p className="shrink-0 text-xs text-smoke">{new Date(kw.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {kw.results?.slice(0, 3).map((r, i) => (
-                      <span key={i} className="text-xs bg-white border border-sand/70 px-2.5 py-1 rounded-lg text-olivewood font-medium">
+                      <span key={i} className="border border-white/12 bg-coal px-2.5 py-1 text-xs font-medium text-paper">
                         {r.keyword}
                       </span>
                     ))}
                     {kw.results?.length > 3 && (
-                      <span className="text-xs text-moss font-semibold px-1 flex items-center">
+                      <span className="flex items-center px-1 text-xs font-semibold text-lime">
                         +{kw.results.length - 3} more
                       </span>
                     )}

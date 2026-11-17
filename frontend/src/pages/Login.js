@@ -1,11 +1,12 @@
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { LogIn, Loader2, User } from 'lucide-react';
+import { LogIn, Loader2, User, ArrowRight } from 'lucide-react';
 import AuthLayout from '../components/AuthLayout';
+import Magnetic from '../components/Magnetic';
 
 const inputClass =
-  'w-full px-4 py-3 rounded-xl border border-sand bg-white text-olivewood placeholder:text-bark/50 focus:ring-2 focus:ring-sage/40 focus:border-sage outline-none transition-all';
+  'w-full bg-panel px-4 py-3 border border-white/12 text-paper placeholder:text-smoke/50 focus:ring-2 focus:ring-lime/40 focus:border-lime/60 outline-none transition-all';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -44,17 +45,17 @@ const Login = () => {
     <AuthLayout
       title="Welcome back"
       subtitle="Sign in to run audits and pick up where you left off."
-      footer={<>No account yet? <Link to="/signup" className="text-moss font-semibold hover:underline">Create one</Link></>}
+      footer={<>No account yet? <Link to="/signup" className="font-semibold text-lime underline underline-offset-4 hover:text-paper">Create one</Link></>}
     >
       {error && (
-        <div className="bg-red-50 text-red-700 p-3.5 rounded-xl text-sm mb-6 border border-red-100">
+        <div className="mb-6 border border-red-400/30 bg-red-500/10 p-3.5 text-sm text-red-300">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-olivewood mb-1.5">Email</label>
+          <label htmlFor="email" className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.18em] text-smoke">Email</label>
           <input
             id="email"
             type="email"
@@ -67,7 +68,7 @@ const Login = () => {
           />
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-olivewood mb-1.5">Password</label>
+          <label htmlFor="password" className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.18em] text-smoke">Password</label>
           <input
             id="password"
             type="password"
@@ -80,32 +81,37 @@ const Login = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="mt-2 w-full bg-olivewood hover:bg-moss disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
-        >
-          {isSubmitting ? <Loader2 size={19} className="animate-spin" /> : <LogIn size={19} />}
-          Sign in
-        </button>
+        <Magnetic className="mt-2">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="flex w-full items-center justify-center gap-2 bg-lime py-3.5 font-display text-base font-extrabold tracking-tight text-ink transition-colors hover:bg-paper disabled:opacity-60"
+          >
+            {isSubmitting ? <Loader2 size={19} className="animate-spin" /> : <LogIn size={19} />}
+            Sign in
+            {!isSubmitting && <ArrowRight size={18} />}
+          </button>
+        </Magnetic>
       </form>
 
-      <div className="flex items-center gap-4 my-6">
-        <div className="flex-1 h-px bg-sand/70"></div>
-        <span className="text-xs font-medium text-bark uppercase tracking-wider">or</span>
-        <div className="flex-1 h-px bg-sand/70"></div>
+      <div className="my-6 flex items-center gap-4">
+        <div className="h-px flex-1 bg-white/12"></div>
+        <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">or</span>
+        <div className="h-px flex-1 bg-white/12"></div>
       </div>
 
-      <button
-        type="button"
-        onClick={handleGuestLogin}
-        disabled={isSubmitting}
-        className="w-full bg-white hover:bg-paper disabled:opacity-60 text-olivewood font-semibold py-3 rounded-xl border border-sand transition-colors flex items-center justify-center gap-2"
-      >
-        {isSubmitting ? <Loader2 size={19} className="animate-spin" /> : <User size={19} />}
-        Continue as Guest
-      </button>
-      <p className="mt-3 text-center text-sm text-bark">
+      <Magnetic>
+        <button
+          type="button"
+          onClick={handleGuestLogin}
+          disabled={isSubmitting}
+          className="flex w-full items-center justify-center gap-2 border border-white/20 bg-transparent py-3.5 font-display text-base font-bold tracking-tight text-paper transition-colors hover:border-lime hover:text-lime disabled:opacity-60"
+        >
+          {isSubmitting ? <Loader2 size={19} className="animate-spin" /> : <User size={19} />}
+          Continue as Guest
+        </button>
+      </Magnetic>
+      <p className="mt-3 text-center text-sm text-smoke">
         Just looking around? A guest session works without an account.
       </p>
     </AuthLayout>

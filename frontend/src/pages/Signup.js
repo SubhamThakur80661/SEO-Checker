@@ -1,11 +1,12 @@
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { UserPlus, Loader2 } from 'lucide-react';
+import { UserPlus, Loader2, ArrowRight } from 'lucide-react';
 import AuthLayout from '../components/AuthLayout';
+import Magnetic from '../components/Magnetic';
 
 const inputClass =
-  'w-full px-4 py-3 rounded-xl border border-sand bg-white text-olivewood placeholder:text-bark/50 focus:ring-2 focus:ring-sage/40 focus:border-sage outline-none transition-all';
+  'w-full bg-panel px-4 py-3 border border-white/12 text-paper placeholder:text-smoke/50 focus:ring-2 focus:ring-lime/40 focus:border-lime/60 outline-none transition-all';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -33,17 +34,17 @@ const Signup = () => {
     <AuthLayout
       title="Create an account"
       subtitle="An account keeps your audits and keyword searches in one place."
-      footer={<>Already have an account? <Link to="/login" className="text-moss font-semibold hover:underline">Sign in</Link></>}
+      footer={<>Already have an account? <Link to="/login" className="font-semibold text-lime underline underline-offset-4 hover:text-paper">Sign in</Link></>}
     >
       {error && (
-        <div className="bg-red-50 text-red-700 p-3.5 rounded-xl text-sm mb-6 border border-red-100">
+        <div className="mb-6 border border-red-400/30 bg-red-500/10 p-3.5 text-sm text-red-300">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-olivewood mb-1.5">Name</label>
+          <label htmlFor="name" className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.18em] text-smoke">Name</label>
           <input
             id="name"
             type="text"
@@ -56,7 +57,7 @@ const Signup = () => {
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-olivewood mb-1.5">Email</label>
+          <label htmlFor="email" className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.18em] text-smoke">Email</label>
           <input
             id="email"
             type="email"
@@ -69,7 +70,7 @@ const Signup = () => {
           />
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-olivewood mb-1.5">Password</label>
+          <label htmlFor="password" className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.18em] text-smoke">Password</label>
           <input
             id="password"
             type="password"
@@ -83,14 +84,17 @@ const Signup = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="mt-2 w-full bg-olivewood hover:bg-moss disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
-        >
-          {isSubmitting ? <Loader2 size={19} className="animate-spin" /> : <UserPlus size={19} />}
-          Create account
-        </button>
+        <Magnetic className="mt-2">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="flex w-full items-center justify-center gap-2 bg-lime py-3.5 font-display text-base font-extrabold tracking-tight text-ink transition-colors hover:bg-paper disabled:opacity-60"
+          >
+            {isSubmitting ? <Loader2 size={19} className="animate-spin" /> : <UserPlus size={19} />}
+            Create account
+            {!isSubmitting && <ArrowRight size={18} />}
+          </button>
+        </Magnetic>
       </form>
     </AuthLayout>
   );

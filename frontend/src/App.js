@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import Audit from "./pages/Audit";
 import Keywords from "./pages/Keywords";
 import ChatBot from "./components/ChatBot";
+import Cursor from "./components/Cursor";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -21,20 +22,24 @@ const NAV_ITEMS = [
 
 function Logo() {
   return (
-    <div className="flex items-center gap-2.5 text-olivewood">
-      <div className="bg-olivewood p-2 rounded-lg">
-        <TrendingUp className="text-olive" size={20} />
-      </div>
-      <span className="text-xl font-bold tracking-tight">RankPilot</span>
+    <div className="flex items-center gap-3 text-paper">
+      <span className="flex h-9 w-9 items-center justify-center bg-lime text-ink">
+        <TrendingUp size={20} strokeWidth={2.5} />
+      </span>
+      <span className="font-display font-wide text-lg font-black tracking-tight">RANKPILOT</span>
     </div>
   );
 }
 
-function navLinkClass({ isActive }) {
-  return `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[15px] font-medium transition-colors ${
-    isActive
-      ? 'bg-white text-olivewood shadow-card ring-1 ring-sand/60'
-      : 'text-bark hover:text-olivewood hover:bg-white/60'
+function topNavClass({ isActive }) {
+  return `nav-link font-mono text-[12px] uppercase tracking-[0.14em] transition-colors ${
+    isActive ? 'text-lime' : 'text-smoke hover:text-paper'
+  }`;
+}
+
+function tabClass({ isActive }) {
+  return `flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors ${
+    isActive ? 'text-lime' : 'text-smoke hover:text-paper'
   }`;
 }
 
@@ -43,87 +48,63 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Cursor />
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
 
         <Route path="*" element={
           <ProtectedRoute>
-            <div className="flex min-h-screen bg-parchment font-sans text-olivewood selection:bg-sage/30">
-
-              <aside className="hidden md:flex w-64 shrink-0 border-r border-sand/60 p-5 flex-col sticky top-0 h-screen">
-                <div className="px-2 pt-2 pb-8">
+            <div className="min-h-screen bg-ink font-sans text-paper selection:bg-lime selection:text-ink">
+              <header className="sticky top-0 z-30 border-b border-white/10 bg-ink/90 backdrop-blur">
+                <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
                   <Logo />
-                </div>
-
-                <nav className="flex-1 space-y-1">
-                  {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
-                    <NavLink key={to} to={to} end={end} className={navLinkClass}>
-                      <Icon size={19} strokeWidth={2.2} /> {label}
-                    </NavLink>
-                  ))}
-                </nav>
-
-                {user && (
-                  <div className="mt-auto bg-white rounded-2xl border border-sand/60 shadow-card p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 bg-olivewood rounded-full flex items-center justify-center text-white font-semibold text-sm shrink-0">
-                        {user.name?.charAt(0) || 'U'}
-                      </div>
-                      <div className="overflow-hidden">
-                        <p className="font-semibold text-sm text-olivewood truncate">{user.name}</p>
-                        <p className="text-xs text-bark truncate">{user.email}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-sand/60">
-                      <span className="flex items-center gap-1.5 text-sm font-semibold text-olivewood">
-                        <Coins size={15} className="text-moss" />
-                        {user.credits}
-                        <span className="text-xs text-bark font-medium">credits</span>
-                      </span>
-                      <button
-                        onClick={logout}
-                        className="p-1.5 text-bark hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Log out"
-                        aria-label="Log out"
-                      >
-                        <LogOut size={16} />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </aside>
-
-              <div className="flex-1 min-w-0 flex flex-col h-screen overflow-y-auto">
-                <header className="md:hidden sticky top-0 z-20 bg-parchment/95 backdrop-blur border-b border-sand/60 px-4 pt-4 pb-3">
-                  <div className="flex items-center justify-between">
-                    <Logo />
-                    <button
-                      onClick={logout}
-                      className="p-2 text-bark hover:text-red-700 rounded-lg"
-                      aria-label="Log out"
-                    >
-                      <LogOut size={18} />
-                    </button>
-                  </div>
-                  <nav className="flex gap-1 mt-3 overflow-x-auto">
-                    {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
-                      <NavLink key={to} to={to} end={end} className={navLinkClass}>
-                        <Icon size={17} strokeWidth={2.2} /> {label}
+                  <nav className="hidden items-center gap-7 md:flex">
+                    {NAV_ITEMS.map(({ to, label, end }) => (
+                      <NavLink key={to} to={to} end={end} className={topNavClass}>
+                        {label}
                       </NavLink>
                     ))}
                   </nav>
-                </header>
+                  {user && (
+                    <div className="flex items-center gap-3">
+                      <span className="hidden items-center gap-1.5 border border-white/12 px-3 py-1.5 font-mono text-xs text-paper sm:flex">
+                        <Coins size={14} className="text-lime" />
+                        {user.credits}
+                        <span className="text-smoke">credits</span>
+                      </span>
+                      <span className="hidden h-8 w-8 items-center justify-center bg-lime font-display text-sm font-extrabold text-ink lg:flex">
+                        {user.name?.charAt(0) || 'U'}
+                      </span>
+                      <button
+                        onClick={logout}
+                        className="flex items-center gap-2 border border-white/12 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-smoke transition-colors hover:border-red-400/60 hover:text-red-300"
+                        aria-label="Log out"
+                      >
+                        <LogOut size={15} />
+                        <span className="hidden sm:inline">Log out</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </header>
 
-                <main className="p-5 sm:p-8 lg:p-10 max-w-7xl mx-auto w-full flex-1">
-                  <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/audit" element={<Audit />} />
-                    <Route path="/keywords" element={<Keywords />} />
-                    <Route path="/history" element={<History />} />
-                  </Routes>
-                </main>
-              </div>
+              <main className="mx-auto w-full max-w-7xl flex-1 px-5 pb-28 pt-8 sm:px-8 sm:pt-12 md:pb-16">
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/audit" element={<Audit />} />
+                  <Route path="/keywords" element={<Keywords />} />
+                  <Route path="/history" element={<History />} />
+                </Routes>
+              </main>
+
+              <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-white/10 bg-ink/95 backdrop-blur md:hidden">
+                {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
+                  <NavLink key={to} to={to} end={end} className={tabClass}>
+                    <Icon size={19} strokeWidth={2.2} /> {label}
+                  </NavLink>
+                ))}
+              </nav>
 
               <ChatBot />
             </div>

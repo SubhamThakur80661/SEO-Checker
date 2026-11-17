@@ -58,17 +58,18 @@ function Keywords() {
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="max-w-4xl mx-auto"
+      className="mx-auto max-w-4xl"
     >
       <div className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-olivewood tracking-tight">Keyword research</h1>
-        <p className="text-lg text-bark mt-2 max-w-2xl">
-          Type a topic. You will get keyword ideas for it — click one to copy it.
+        <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-lime">02 / Keywords</p>
+        <h1 className="font-display font-wide text-4xl font-black tracking-tight sm:text-6xl">Keyword research</h1>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-smoke sm:text-lg">
+          Type a topic. You will get keyword ideas for it. Click one to copy it.
         </p>
       </div>
 
-      <div className="bg-white p-2 rounded-2xl shadow-card border border-sand/60 flex items-center gap-2 mb-8 max-w-2xl focus-within:ring-4 focus-within:ring-sage/15 focus-within:border-sage transition-all">
-        <div className="pl-3 text-bark">
+      <div className="mb-8 flex max-w-2xl items-center gap-2 border border-white/12 bg-coal p-2 transition-all focus-within:border-lime/60 focus-within:ring-2 focus-within:ring-lime/20">
+        <div className="pl-3 text-smoke">
           <KeyRound size={19} />
         </div>
         <input
@@ -76,13 +77,13 @@ function Keywords() {
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && generateKeywords()}
-          className="flex-1 bg-transparent border-none outline-none py-2.5 px-2 text-olivewood placeholder:text-bark/50 font-medium min-w-0"
+          className="min-w-0 flex-1 border-none bg-transparent px-2 py-2.5 font-medium text-paper outline-none placeholder:text-smoke/50"
           aria-label="Topic for keyword research"
         />
         <button
           onClick={generateKeywords}
           disabled={loading || !topic}
-          className="bg-olivewood hover:bg-moss disabled:opacity-50 text-white px-5 py-2.5 rounded-xl font-semibold transition-colors flex items-center gap-2 shrink-0"
+          className="flex shrink-0 items-center gap-2 bg-lime px-5 py-2.5 font-display font-extrabold tracking-tight text-ink transition-colors hover:bg-paper disabled:opacity-50"
         >
           {loading ? <Loader2 size={17} className="animate-spin" /> : <Sparkles size={17} />}
           {loading ? "Thinking…" : "Generate"}
@@ -90,7 +91,7 @@ function Keywords() {
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-700 p-4 rounded-xl border border-red-100 font-medium shadow-card mb-8 max-w-2xl">
+        <div className="mb-8 max-w-2xl border border-red-400/30 bg-red-500/10 p-4 font-medium text-red-300">
           {error}
         </div>
       )}
@@ -100,13 +101,13 @@ function Keywords() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="bg-white border border-sand/60 rounded-2xl p-6 sm:p-7 shadow-card max-w-3xl"
+          className="max-w-3xl border border-white/12 bg-coal p-6 sm:p-7"
         >
-          <div className="flex items-center justify-between gap-4 mb-6">
-            <h3 className="text-lg font-bold text-olivewood">
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <h3 className="font-display text-lg font-extrabold tracking-tight text-paper">
               Ideas for “{searchedTopic}”
             </h3>
-            <span className="bg-paper border border-sand/60 text-bark text-xs font-semibold px-3 py-1.5 rounded-full shrink-0">
+            <span className="shrink-0 border border-lime/50 bg-lime/10 px-3 py-1.5 font-mono text-xs font-semibold text-lime">
               {keywords.length} found
             </span>
           </div>
@@ -116,10 +117,10 @@ function Keywords() {
               <button
                 key={k}
                 onClick={() => copyKeyword(k)}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors flex items-center gap-1.5 ${
+                className={`flex items-center gap-1.5 border px-4 py-2 text-sm font-medium transition-colors ${
                   copied === k
-                    ? 'bg-sage/20 border-sage text-moss'
-                    : 'bg-paper border-sand/70 text-olivewood hover:border-sage hover:bg-sage/10'
+                    ? 'border-lime bg-lime text-ink'
+                    : 'border-white/15 bg-panel text-paper hover:border-lime/70 hover:text-lime'
                 }`}
                 title="Click to copy"
               >

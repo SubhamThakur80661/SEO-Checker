@@ -4,11 +4,19 @@
 
 @layer base {
   body {
-    @apply font-sans antialiased bg-parchment text-olivewood;
+    @apply font-sans antialiased bg-ink text-paper;
   }
 
   ::selection {
-    @apply bg-sage/30 text-olivewood;
+    background: #D7FF3E;
+    color: #0A0A0B;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #F2F0EA;
+    -webkit-box-shadow: 0 0 0 1000px #17171A inset;
+    transition: background-color 9999s ease-in-out 0s;
   }
 }
 
@@ -22,14 +30,111 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d6c9b3;
+  background: #2A2A2E;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #8b957b;
+  background: #3A3A3F;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+.font-wide {
+  font-stretch: 118%;
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(242, 240, 234, 0.35);
+}
+
+.text-outline-lime {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(215, 255, 62, 0.55);
+}
+
+.bg-blueprint {
+  background-image:
+    linear-gradient(rgba(242, 240, 234, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242, 240, 234, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.mask-line {
+  display: block;
+  overflow: hidden;
+}
+
+.mask-line > span {
+  display: block;
+  will-change: transform;
+}
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee-x 32s linear infinite;
+}
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+.animate-blink {
+  animation: blink-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes drift-glow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(4%, -6%, 0) scale(1.08); }
+}
+
+.animate-drift {
+  animation: drift-glow 14s ease-in-out infinite;
+}
+
+@media (hover: hover) {
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: #D7FF3E;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee,
+  .animate-blink,
+  .animate-drift {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
 }
