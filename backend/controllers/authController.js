@@ -81,6 +81,52 @@ exports.login = async (req, res) => {
   }
 };
 
+// @desc    Continue as guest (shared demo account, no credentials needed)
+// @route   POST /api/auth/guest
+// @access  Public
+exports.guestLogin = async (req, res) => {
+  try {
+    const GUEST_EMAIL = 'guest@rankpilot.app';
+
+    let user = await User.findOne({ email: GUEST_EMAIL });
+
+    if (!user) {
+      // First guest visit: create the shared demo account. Its password is
+      // a random value nobody knows, so it can never be logged into via
+      // /login — only this endpoint can issue a token for it.
+      try {
+        const crypto = require('crypto');
+        user = await User.create({
+          name: 'Guest',
+          email: GUEST_EMAIL,
+          password: crypto.randomBytes(32).toString('hex'),
+          role: 'user'
+        });
+      } catch (createErr) {
+        // Another request may have created the guest account first — reuse it.
+        user = await User.findOne({ email: GUEST_EMAIL });
+        if (!user) throw createErr;
+      }
+    }
+
+    const token = getSignedJwtToken(user._id);
+
+    res.status(200).json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        credits: user.credits,
+        isGuest: true
+      }
+    });
+  } catch (err) {
+    res.status(400).json({ success: false, error: 'Server error' });
+  }
+};
+
 // @desc    Get current logged in user
 // @route   GET /api/auth/me
 // @access  Private
