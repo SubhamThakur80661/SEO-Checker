@@ -37,13 +37,19 @@ export const AuthProvider = ({ children }) => {
     setUser(res.data.user);
   };
 
+  const guestLogin = async () => {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/guest`);
+    localStorage.setItem("token", res.data.token);
+    setUser(res.data.user);
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, guestLogin, logout }}>
       {children}
     </AuthContext.Provider>
   );
