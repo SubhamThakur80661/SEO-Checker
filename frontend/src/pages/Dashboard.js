@@ -1,134 +1,137 @@
 import { motion } from "framer-motion";
-import { LineChart, Search, FileText, Zap, Bot, ArrowRight, ShieldCheck } from "lucide-react";
-import { useContext } from "react";
+import { FileText, Search, ListChecks, ArrowRight, Zap, ShieldCheck, LineChart } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function Dashboard() {
   const { user } = useContext(AuthContext);
+  const [auditCount, setAuditCount] = useState(0);
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
-  };
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${API_URL}/api/audit/history`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        if (res.data.success) setAuditCount(res.data.data.length);
+      } catch {
+        // Backend down or unreachable — the count just stays at 0.
+      }
+    };
+    fetchCount();
+  }, []);
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
-  };
-
-  const features = [
-    {
-      title: "Comprehensive SEO Audit",
-      desc: "Analyze any website's technical health, meta tags, and content structure instantly.",
-      icon: <FileText className="text-sage" size={32} strokeWidth={2} />,
-      link: "/audit",
-      bg: "bg-white border-sage/15"
-    },
-    {
-      title: "Discover High-Intent Keywords",
-      desc: "Find long-tail, semantic keywords that are proven to drive targeted organic traffic.",
-      icon: <Search className="text-sage" size={32} strokeWidth={2} />,
-      link: "/keywords",
-      bg: "bg-white border-sage/15"
-    },
-    {
-      title: "AI Action Plan",
-      desc: "Receive step-by-step instructions from our AI on how to outrank your competitors.",
-      icon: <Bot className="text-sage" size={32} strokeWidth={2} />,
-      link: "/audit",
-      bg: "bg-white border-sage/15"
-    }
-  ];
+  const firstName = user?.name?.split(' ')[0] || 'there';
 
   return (
-    <div className="max-w-6xl mx-auto pb-12">
-      
-      {/* HEADER SECTION */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
+    <div className="max-w-6xl mx-auto pb-8">
+      <motion.div
+        initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-14 relative"
+        transition={{ duration: 0.3 }}
+        className="mb-10"
       >
-        <div className="absolute top-0 right-10 -m-12 w-64 h-64 bg-sage/5 rounded-full blur-3xl pointer-events-none"></div>
-        <h1 className="text-5xl font-black text-olivewood tracking-tight mb-4 flex items-center gap-3">
-          Welcome back, {user?.name?.split(' ')[0] || 'Marketer'}
+        <h1 className="text-3xl sm:text-4xl font-bold text-olivewood tracking-tight">
+          Welcome back, {firstName}
         </h1>
-        <p className="text-xl text-bark max-w-2xl font-medium leading-relaxed">
-          Your command center for organic growth. Run an audit, discover new keywords, and let AI build your strategy.
+        <p className="text-lg text-bark mt-2 max-w-2xl">
+          Run an audit, look up keywords, or check what you have done before.
         </p>
       </motion.div>
 
-      {/* QUICK STATS */}
-      <motion.div 
-         initial={{ opacity: 0, scale: 0.95 }}
-         animate={{ opacity: 1, scale: 1 }}
-         transition={{ delay: 0.1 }}
-         className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14"
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.08, duration: 0.3 }}
+        className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10"
       >
-        <div className="bg-sand/30 border border-bark/10 p-6 rounded-3xl shadow-sm flex items-center justify-between group hover:bg-sand/50 transition-colors">
+        <div className="bg-white border border-sand/60 rounded-2xl shadow-card p-5 flex items-center justify-between">
           <div>
-            <p className="text-bark font-bold text-sm uppercase tracking-wider mb-1">Available Credits</p>
-            <p className="text-3xl font-black text-olivewood">{user?.credits}</p>
+            <p className="text-sm font-medium text-bark">Credits left</p>
+            <p className="text-3xl font-bold text-olivewood mt-1">{user?.credits ?? '—'}</p>
           </div>
-          <div className="w-14 h-14 rounded-full bg-sage/20 flex items-center justify-center text-sage">
-            <Zap size={24} strokeWidth={2.5}/>
+          <div className="w-11 h-11 rounded-xl bg-sage/15 flex items-center justify-center text-moss">
+            <Zap size={21} />
           </div>
         </div>
-        <div className="bg-sand/30 border border-bark/10 p-6 rounded-3xl shadow-sm flex items-center justify-between group hover:bg-sand/50 transition-colors">
+        <div className="bg-white border border-sand/60 rounded-2xl shadow-card p-5 flex items-center justify-between">
           <div>
-            <p className="text-bark font-bold text-sm uppercase tracking-wider mb-1">Audits Run</p>
-            <p className="text-3xl font-black text-olivewood">0</p>
+            <p className="text-sm font-medium text-bark">Audits run</p>
+            <p className="text-3xl font-bold text-olivewood mt-1">{auditCount}</p>
           </div>
-          <div className="w-14 h-14 rounded-full bg-olive/30 flex items-center justify-center text-olivewood">
-            <LineChart size={24} strokeWidth={2.5}/>
+          <div className="w-11 h-11 rounded-xl bg-olive/20 flex items-center justify-center text-moss">
+            <LineChart size={21} />
           </div>
         </div>
-        <div className="bg-sand/30 border border-bark/10 p-6 rounded-3xl shadow-sm flex items-center justify-between group hover:bg-sand/50 transition-colors">
+        <div className="bg-white border border-sand/60 rounded-2xl shadow-card p-5 flex items-center justify-between">
           <div>
-            <p className="text-bark font-bold text-sm uppercase tracking-wider mb-1">Account Status</p>
-            <p className="text-xl font-black text-olivewood flex items-center gap-2 mt-2">
-              <ShieldCheck size={20} className="text-sage"/> Active
+            <p className="text-sm font-medium text-bark">Account</p>
+            <p className="text-xl font-bold text-olivewood mt-2 flex items-center gap-2">
+              <ShieldCheck size={19} className="text-moss" /> Active
             </p>
           </div>
         </div>
       </motion.div>
 
-      {/* FEATURE GRID */}
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-olivewood">Quick Actions</h2>
-      </div>
-
-      <motion.div 
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="grid grid-cols-1 md:grid-cols-3 gap-8"
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.16, duration: 0.3 }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
       >
-        {features.map((feat, idx) => (
-          <Link to={feat.link} key={idx}>
-            <motion.div variants={item} className={`h-full ${feat.bg} p-8 rounded-[2rem] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group flex flex-col justify-between`}>
-              <div>
-                <div className="bg-parchment w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-sand">
-                   {feat.icon}
-                </div>
-                <h3 className="text-2xl font-bold text-olivewood mb-3 leading-tight">{feat.title}</h3>
-                <p className="text-bark leading-relaxed font-medium">
-                  {feat.desc}
-                </p>
+        <Link to="/audit" className="md:row-span-2 group">
+          <div className="h-full bg-olivewood text-parchment p-7 rounded-2xl shadow-card hover:shadow-lift transition-shadow flex flex-col justify-between min-h-[280px]">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-parchment/10 ring-1 ring-parchment/15 flex items-center justify-center mb-6">
+                <FileText size={22} className="text-olive" />
               </div>
-              
-              <div className="mt-8 flex items-center text-sage font-bold group-hover:gap-3 gap-2 transition-all">
-                Get Started <ArrowRight size={18} strokeWidth={3} />
-              </div>
-            </motion.div>
-          </Link>
-        ))}
-      </motion.div>
+              <h3 className="text-2xl font-bold tracking-tight mb-2">SEO audit</h3>
+              <p className="text-parchment/75 leading-relaxed max-w-sm">
+                Paste a URL and get a plain report on the page's title, description, and the
+                basics search engines check.
+              </p>
+            </div>
+            <span className="mt-8 inline-flex items-center gap-2 font-semibold text-olive group-hover:gap-3 transition-all">
+              Run an audit <ArrowRight size={18} />
+            </span>
+          </div>
+        </Link>
 
+        <Link to="/keywords" className="group">
+          <div className="h-full bg-white border border-sand/60 p-7 rounded-2xl shadow-card hover:shadow-lift hover:-translate-y-0.5 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-parchment ring-1 ring-sand/60 flex items-center justify-center mb-5">
+              <Search size={22} className="text-moss" />
+            </div>
+            <h3 className="text-xl font-bold text-olivewood mb-2">Keyword research</h3>
+            <p className="text-bark leading-relaxed">
+              Type a topic and get keyword ideas for your next post or page.
+            </p>
+            <span className="mt-5 inline-flex items-center gap-2 font-semibold text-moss group-hover:gap-3 transition-all">
+              Find keywords <ArrowRight size={17} />
+            </span>
+          </div>
+        </Link>
+
+        <Link to="/audit" className="group">
+          <div className="h-full bg-white border border-sand/60 p-7 rounded-2xl shadow-card hover:shadow-lift hover:-translate-y-0.5 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-parchment ring-1 ring-sand/60 flex items-center justify-center mb-5">
+              <ListChecks size={22} className="text-moss" />
+            </div>
+            <h3 className="text-xl font-bold text-olivewood mb-2">What to fix next</h3>
+            <p className="text-bark leading-relaxed">
+              Every audit ends with a short list of fixes, in plain language.
+            </p>
+            <span className="mt-5 inline-flex items-center gap-2 font-semibold text-moss group-hover:gap-3 transition-all">
+              Start with an audit <ArrowRight size={17} />
+            </span>
+          </div>
+        </Link>
+      </motion.div>
     </div>
   );
 }
