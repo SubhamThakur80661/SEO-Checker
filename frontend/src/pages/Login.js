@@ -2,14 +2,14 @@ import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { motion } from 'framer-motion';
-import { LogIn, Loader2, LineChart } from 'lucide-react';
+import { LogIn, Loader2, LineChart, User } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login } = useContext(AuthContext);
+  const { login, guestLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,6 +21,18 @@ const Login = () => {
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to login');
+    }
+    setIsSubmitting(false);
+  };
+
+  const handleGuestLogin = async () => {
+    setIsSubmitting(true);
+    setError('');
+    try {
+      await guestLogin();
+      navigate('/');
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to continue as guest');
     }
     setIsSubmitting(false);
   };
@@ -82,6 +94,22 @@ const Login = () => {
             Sign In
           </button>
         </form>
+
+        <div className="flex items-center gap-4 my-6">
+          <div className="flex-1 h-px bg-slate-200"></div>
+          <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">or</span>
+          <div className="flex-1 h-px bg-slate-200"></div>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleGuestLogin}
+          disabled={isSubmitting}
+          className="w-full bg-white hover:bg-slate-50 disabled:bg-slate-100 text-slate-700 font-medium py-3 rounded-xl border border-slate-200 transition-all flex items-center justify-center gap-2"
+        >
+          {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : <User size={20} />}
+          Continue as Guest
+        </button>
 
         <p className="mt-8 text-center text-sm text-slate-600">
           Don't have an account? <Link to="/signup" className="text-emerald-600 font-semibold hover:underline">Get started</Link>
