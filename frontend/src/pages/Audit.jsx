@@ -135,6 +135,7 @@ export default function Audit() {
             </Button>
           </form>
           {loading && (
+            <>
             <p className="mt-3 flex items-center gap-2 text-sm text-muted" role="status" aria-live="polite">
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
               {PROGRESS_STEPS[step]}
@@ -146,6 +147,7 @@ export default function Audit() {
                 transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
               />
             </div>
+            </>
           )}
           {error && !loading && (
             <p className="mt-3 rounded-lg bg-critical-soft px-3 py-2.5 text-sm text-critical" role="alert">
