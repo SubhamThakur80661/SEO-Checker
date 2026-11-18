@@ -1,31 +1,47 @@
-# RankPilot — frontend
+# RankVista — frontend
 
-React app for the SEO Checker: run a site audit, research keywords, and look
-back at past audits. Talks to the Node backend in `../backend`.
+React 19 + Vite + Tailwind CSS v4 dashboard for the RankVista SEO audit API.
+This is the `frontend/` of the SEO-Checker repo (the product's display name is
+RankVista; the repo keeps its name).
 
 ## Run it
 
 ```bash
 npm install
-npm start
+npm run dev        # http://localhost:5173
+npm run build      # production build into dist/
 ```
 
-The app runs on http://localhost:3000. By default it expects the backend at
-http://localhost:5000. Point it somewhere else with:
+## Configure
 
-```bash
-REACT_APP_API_URL=https://your-backend.example.com npm start
+The API base URL comes from `VITE_API_URL` (set in `.env` or in the Vercel
+project settings). Without it, the app falls back to the production backend:
+
+```
+VITE_API_URL=https://seo-checker-2p81.onrender.com
 ```
 
-## Build
+## What it does
 
-```bash
-npm run build
-```
+- **Dashboard** — real stats from your audit + keyword history, score trend
+  chart, quick audit, recent audits.
+- **SEO Audit** — audit any public URL: weighted 0–100 score across 8
+  categories, every check with a fix, search + social previews, shareable
+  report link, print / save-as-PDF.
+- **Keywords** — keyword *idea* generator (brainstormed patterns grouped by
+  intent — not search-volume data).
+- **History** — past audits with search, sort, trend chart, re-audit, share,
+  delete.
+- **Report** — public share view at `/report/:id` (no login needed).
+- **Assistant** — rule-based SEO helper (no LLM): explains scores and checks.
 
-## Layout
+Guest login works without an account: the login page has a prominent
+"Continue as Guest" button.
 
-- `src/App.js` — routes, sidebar layout, mobile header
-- `src/pages/` — Dashboard, Audit, Keywords, History, Login, Signup
-- `src/components/` — ChatBot, ProtectedRoute, AuthLayout
-- `src/context/AuthContext.js` — login, signup, guest session, logout
+## Notes
+
+- No fake data anywhere: every number on the dashboard comes from the API;
+  empty states show when there is no history yet.
+- The score is a RankVista model score, not a Google score — the UI says so.
+- `package-lock.json` is intentionally left as it is upstream; Vercel resolves
+  fresh on each deploy.

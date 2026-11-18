@@ -1,193 +1,130 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  body {
-    @apply font-sans antialiased bg-ink text-paper;
-  }
+/*
+ * RankVista design tokens — three layers (primitive → semantic → component).
+ * Never use raw hex in components: reference these tokens via Tailwind
+ * utilities (bg-paper, text-ink, border-line, bg-primary, ...).
+ */
+@theme {
+  /* Primitive: lime scale (brand) */
+  --color-lime-50: #f7fee7;
+  --color-lime-100: #ecfccb;
+  --color-lime-200: #d9f99d;
+  --color-lime-300: #bef264;
+  --color-lime-400: #a3e635;
+  --color-lime-500: #84cc16;
+  --color-lime-600: #65a30d;
+  --color-lime-700: #4d7c0f;
+  --color-lime-800: #3f6212;
+  --color-lime-900: #365314;
 
-  ::selection {
-    background: #D7FF3E;
-    color: #0A0A0B;
-  }
+  /* Primitive: warm neutrals */
+  --color-paper: #fafaf7;
+  --color-surface: #ffffff;
+  --color-ink: #101210;
+  --color-ink-soft: #3f4540;
+  --color-muted: #5c665f;
+  --color-faint: #8a938c;
+  --color-line: #e5e7e0;
+  --color-line-strong: #d4d8d0;
+  --color-wash: #f1f2ee;
 
-  input:-webkit-autofill,
-  input:-webkit-autofill:focus {
-    -webkit-text-fill-color: #F2F0EA;
-    -webkit-box-shadow: 0 0 0 1000px #17171A inset;
-    transition: background-color 9999s ease-in-out 0s;
-  }
-}
+  /* Semantic */
+  --color-primary: #4d7c0f;
+  --color-primary-dark: #3f6212;
+  --color-primary-soft: #f7fee7;
+  --color-acid: #d7ff3e;
+  --color-sidebar: #141613;
+  --color-sidebar-ink: #e7eae5;
+  --color-sidebar-muted: #9aa39c;
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+  /* Semantic: statuses */
+  --color-success: #15803d;
+  --color-success-soft: #f0fdf4;
+  --color-warning: #b45309;
+  --color-warning-soft: #fffbeb;
+  --color-critical: #b91c1c;
+  --color-critical-soft: #fef2f2;
+  --color-info: #475569;
+  --color-info-soft: #f8fafc;
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2A2A2E;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #3A3A3F;
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
 }
 
 html {
-  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
 }
 
-.font-wide {
-  font-stretch: 118%;
+body {
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-.text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(242, 240, 234, 0.35);
+::selection {
+  background: var(--color-lime-200);
 }
 
-.text-outline-lime {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(215, 255, 62, 0.55);
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-.bg-blueprint {
-  background-image:
-    linear-gradient(rgba(242, 240, 234, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(242, 240, 234, 0.045) 1px, transparent 1px);
-  background-size: 72px 72px;
+/* Thin, unobtrusive scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
 }
 
-/* Glassmorphism layer — frosted surfaces over the ink field. Static styling
-   only; no motion, so it needs no reduced-motion guard. Fills are deliberately
-   translucent (5–25%) so the ambient gradient blobs behind show through the
-   blur; dense-text surfaces use the strong end of the range plus a soft
-   text-shadow to keep paper/smoke text readable. */
-.glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
-.glass-strong {
-  background: linear-gradient(135deg, rgba(24, 24, 28, 0.25), rgba(12, 12, 14, 0.18));
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
-  backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.glass-soft {
-  background: rgba(255, 255, 255, 0.06);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-/* Fill + blur only — for bars that keep their own Tailwind border. */
-.glass-bar {
-  background: linear-gradient(180deg, rgba(20, 20, 23, 0.25), rgba(10, 10, 11, 0.18));
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  backdrop-filter: blur(20px) saturate(150%);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-/* Frosted panel that sits inside the solid lime audit band. */
-.glass-lime {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
-  backdrop-filter: blur(16px) saturate(130%);
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  box-shadow: 0 8px 28px rgba(10, 10, 11, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-.glass-input {
-  background: rgba(255, 255, 255, 0.05);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-}
-
-.mask-line {
-  display: block;
-  overflow: hidden;
-}
-
-.mask-line > span {
-  display: block;
-  will-change: transform;
-}
-
-@keyframes marquee-x {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  animation: marquee-x 32s linear infinite;
-}
-
-@keyframes blink-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.15; }
-}
-
-.animate-blink {
-  animation: blink-dot 1.6s ease-in-out infinite;
-}
-
-@keyframes drift-glow {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(4%, -6%, 0) scale(1.08); }
-}
-
-.animate-drift {
-  animation: drift-glow 14s ease-in-out infinite;
-}
-
-@media (hover: hover) {
-  .nav-link {
-    position: relative;
-  }
-  .nav-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    height: 1px;
-    width: 100%;
-    background: #D7FF3E;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .nav-link:hover::after,
-  .nav-link:focus-visible::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-}
-
+/* Respect reduced motion: kill transitions/animations globally */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  .animate-marquee,
-  .animate-blink,
-  .animate-drift {
-    animation: none;
-  }
   *,
   *::before,
   *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* Print stylesheet — the "Save PDF" path (window.print) */
+@media print {
+  body {
+    background: #ffffff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  main {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+  .print-card {
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.print-only {
+  display: none;
 }
