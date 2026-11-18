@@ -128,3 +128,62 @@ body {
 .print-only {
   display: none;
 }
+
+/* ---- RankVista motion layer (design upgrade, 2026-11-18) ---- */
+/* Ambient aurora drift (login background orbs) */
+@keyframes rv-aurora-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(4%, -6%, 0) scale(1.15); }
+  66% { transform: translate3d(-5%, 4%, 0) scale(0.95); }
+}
+/* Gentle vertical float (login hero chips) */
+@keyframes rv-float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+/* Shimmer sweep (guest CTA highlight) */
+@keyframes rv-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.rv-aurora {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+  animation: rv-aurora-drift 18s ease-in-out infinite;
+  will-change: transform;
+}
+.rv-float {
+  animation: rv-float-y 6s ease-in-out infinite;
+}
+.rv-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.45) 50%, transparent 60%);
+  animation: rv-shimmer 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+.rv-tilt-scene {
+  perspective: 1100px;
+}
+.rv-tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.rv-glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.rv-text-gradient {
+  background: linear-gradient(92deg, #d7ff3e 0%, #a3e635 45%, #4ade80 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.rv-dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 22px 22px;
+}

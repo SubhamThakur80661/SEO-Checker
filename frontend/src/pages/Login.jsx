@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "motion/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Loader2, UserRound } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -6,6 +7,8 @@ import { getErrorMessage } from "../lib/api";
 import Button from "../components/ui/Button.jsx";
 import Input from "../components/ui/Input.jsx";
 import { LogoMark } from "../components/layout/Sidebar.jsx";
+import AmbientBackground from "../components/AmbientBackground.jsx";
+import FloatingScoreCard from "../components/FloatingScoreCard.jsx";
 
 export default function Login() {
   const { login, guestLogin } = useAuth();
@@ -46,19 +49,44 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-sidebar px-4 py-10">
-      <div className="w-full max-w-md">
+    <div className="relative min-h-screen overflow-hidden bg-sidebar">
+      <AmbientBackground />
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-4 py-10 lg:flex-row lg:gap-16">
+        <div className="w-full max-w-md text-center lg:text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">
+              See your site the way <span className="rv-text-gradient">search engines</span> do.
+            </h1>
+            <p className="mt-3 text-[15px] leading-relaxed text-sidebar-muted">
+              A real audit in under a minute — every check, every fix, no signup needed.
+            </p>
+          </motion.div>
+          <div className="mt-8">
+            <FloatingScoreCard />
+          </div>
+        </div>
+
+        <motion.div
+          className="w-full max-w-md"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+        >
         <div className="mb-6 flex flex-col items-center text-center">
           <LogoMark className="h-12 w-12" />
           <h1 className="mt-3 font-display text-2xl font-bold tracking-tight text-white">RankVista</h1>
-          <p className="mt-1 text-sm text-sidebar-muted">See your site the way search engines do.</p>
         </div>
 
         <div className="rounded-2xl bg-surface p-6 shadow-xl sm:p-8">
           <h2 className="font-display text-xl font-bold text-ink">Welcome back</h2>
           <p className="mt-1 text-sm text-muted">Log in to your audits and keyword ideas.</p>
 
-          <Button variant="acid" size="lg" className="mt-6 w-full" onClick={asGuest} disabled={guestBusy || busy}>
+          <Button variant="acid" size="lg" className="relative mt-6 w-full overflow-hidden" onClick={asGuest} disabled={guestBusy || busy}>
+            <span className="rv-shimmer" aria-hidden />
             {guestBusy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <UserRound className="h-4 w-4" aria-hidden />}
             {guestBusy ? "Starting guest session…" : "Continue as Guest"}
           </Button>
@@ -111,7 +139,8 @@ export default function Login() {
             </Link>
           </p>
         </div>
-      </div>
+      </motion.div>
+    </div>
     </div>
   );
 }

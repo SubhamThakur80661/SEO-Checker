@@ -28,7 +28,7 @@ export default function Topbar() {
           type="button"
           onClick={handleLogout}
           aria-label="Log out"
-          className="cursor-pointer rounded-lg p-2 text-muted transition-colors hover:bg-wash hover:text-ink"
+          className="cursor-pointer rounded-lg p-2 text-muted transition-all hover:bg-wash hover:text-ink active:scale-90"
         >
           <LogOut className="h-5 w-5" aria-hidden />
         </button>

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { motion } from "motion/react";
 import { LayoutDashboard, SearchCheck, KeyRound, History } from "lucide-react";
 
 const NAV = [
@@ -22,13 +23,24 @@ export default function MobileNav() {
             to={to}
             end={end}
             className={({ isActive }) =>
-              `flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-colors ${
+              `relative flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium transition-colors ${
                 isActive ? "text-primary" : "text-muted hover:text-ink"
               }`
             }
           >
-            <Icon className="h-5 w-5" aria-hidden />
-            {label}
+            {({ isActive }) => (
+              <>
+                {isActive && (
+                  <motion.span
+                    layoutId="rv-mobilenav-pill"
+                    className="absolute inset-x-2 top-1 bottom-1 rounded-full bg-lime-100"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <Icon className="relative h-5 w-5" aria-hidden />
+                <span className="relative">{label}</span>
+              </>
+            )}
           </NavLink>
         ))}
       </div>

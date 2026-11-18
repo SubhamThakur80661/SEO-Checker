@@ -20,6 +20,7 @@ import { Card, CardHeader, CardBody } from "../components/ui/Card.jsx";
 import Button from "../components/ui/Button.jsx";
 import EmptyState from "../components/ui/EmptyState.jsx";
 import { scoreTone } from "../components/ui/ScoreRing.jsx";
+import { Reveal } from "../components/animated.jsx";
 
 function shortDate(iso) {
   try {
@@ -109,7 +110,7 @@ export default function History() {
 
   return (
     <div className="space-y-5">
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
         <h1 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-[28px]">History</h1>
         <p className="mt-1 text-[15px] text-muted">Every audit you&apos;ve run, with its score and issues.</p>
       </motion.div>
@@ -136,7 +137,13 @@ export default function History() {
                     labelFormatter={(_, payload) => payload?.[0]?.payload?.url || ""}
                     contentStyle={{ borderRadius: 10, border: "1px solid #E5E7E0", fontSize: 13 }}
                   />
-                  <Area type="monotone" dataKey="score" stroke="#4D7C0F" strokeWidth={2} fill="#4D7C0F" fillOpacity={0.12} />
+                  <defs>
+                    <linearGradient id="rvTrendFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#4D7C0F" stopOpacity={0.28} />
+                      <stop offset="100%" stopColor="#4D7C0F" stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="score" stroke="#4D7C0F" strokeWidth={2.5} fill="url(#rvTrendFill)" animationDuration={900} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -144,6 +151,7 @@ export default function History() {
         </Card>
       )}
 
+      <Reveal delay={0.05}>
       <Card>
         <CardBody className="flex flex-col gap-3 sm:flex-row">
           <div className="relative min-w-0 flex-1">
@@ -175,6 +183,7 @@ export default function History() {
           </select>
         </CardBody>
       </Card>
+      </Reveal>
 
       {reports === null ? (
         <Card>
@@ -203,11 +212,17 @@ export default function History() {
         </Card>
       ) : (
         <ul className="space-y-3">
-          {filtered.map((r) => {
+          {filtered.map((r, i) => {
             const tone = scoreTone(r.seoScore);
             return (
-              <li key={r._id}>
-                <Card>
+              <motion.li
+                key={r._id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: Math.min(i * 0.05, 0.4), duration: 0.35 }}
+                whileHover={{ y: -2 }}
+              >
+                <Card className="transition-shadow duration-300 hover:shadow-lg">
                   <CardBody className="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <span
                       className="tabular flex h-12 w-12 shrink-0 items-center justify-center rounded-full font-display text-lg font-bold"
@@ -250,7 +265,7 @@ export default function History() {
                     </div>
                   </CardBody>
                 </Card>
-              </li>
+              </motion.li>
             );
           })}
         </ul>

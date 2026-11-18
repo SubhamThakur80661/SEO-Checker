@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 import { LayoutDashboard, SearchCheck, KeyRound, History, LogOut, User } from "lucide-react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
@@ -47,15 +48,24 @@ export default function Sidebar() {
             to={to}
             end={end}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors duration-150 ${
-                isActive
-                  ? "bg-white/10 text-white"
-                  : "text-sidebar-muted hover:bg-white/5 hover:text-white"
+              `relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors duration-150 ${
+                isActive ? "text-white" : "text-sidebar-muted hover:bg-white/5 hover:text-white"
               }`
             }
           >
-            <Icon className="h-[18px] w-[18px]" aria-hidden />
-            {label}
+            {({ isActive }) => (
+              <>
+                {isActive && (
+                  <motion.span
+                    layoutId="rv-sidebar-pill"
+                    className="absolute inset-0 rounded-lg bg-white/10"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <Icon className="relative h-[18px] w-[18px]" aria-hidden />
+                <span className="relative">{label}</span>
+              </>
+            )}
           </NavLink>
         ))}
       </nav>

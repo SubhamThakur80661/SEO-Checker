@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { CountUp } from "../animated.jsx";
 
 export function scoreTone(score) {
   if (score >= 80) return { ring: "#15803d", track: "#dcfce7", label: "In good shape" };
@@ -36,13 +37,14 @@ export default function ScoreRing({ score = 0, size = 148, stroke = 11 }) {
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={circumference}
+          style={{ filter: `drop-shadow(0 0 5px ${tone.ring}66)` }}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 1, ease: [0.22, 1, 0.36, 1] }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="tabular font-display text-4xl font-bold leading-none text-ink">{clamped}</span>
+        <CountUp value={clamped} className="tabular font-display text-4xl font-bold leading-none text-ink" />
         <span className="mt-1 text-xs font-medium text-muted">/ 100</span>
       </div>
     </div>

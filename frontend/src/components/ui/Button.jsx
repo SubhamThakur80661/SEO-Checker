@@ -2,12 +2,12 @@ import { forwardRef } from "react";
 
 const variants = {
   primary:
-    "bg-primary text-white hover:bg-primary-dark active:bg-lime-900 disabled:bg-line disabled:text-faint",
+    "bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25 active:bg-lime-900 disabled:bg-line disabled:text-faint",
   secondary:
     "bg-surface text-ink border border-line-strong hover:border-ink-soft hover:bg-wash disabled:text-faint",
   ghost: "text-ink-soft hover:bg-wash hover:text-ink disabled:text-faint",
   danger: "bg-critical text-white hover:bg-red-800 disabled:bg-line disabled:text-faint",
-  acid: "bg-acid text-ink hover:bg-lime-300 disabled:bg-line disabled:text-faint",
+  acid: "bg-acid text-ink hover:bg-lime-300 hover:shadow-lg hover:shadow-lime-300/60 disabled:bg-line disabled:text-faint",
 };
 
 const sizes = {
@@ -28,7 +28,7 @@ const Button = forwardRef(function Button(
     <button
       ref={ref}
       type={type}
-      className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg font-medium transition-colors duration-150 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150 active:scale-[0.97] disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     />
   );

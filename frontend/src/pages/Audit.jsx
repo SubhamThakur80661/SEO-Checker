@@ -6,6 +6,7 @@ import api, { getErrorMessage } from "../lib/api";
 import ReportView from "../components/ReportView.jsx";
 import Button from "../components/ui/Button.jsx";
 import { Card, CardBody } from "../components/ui/Card.jsx";
+import { Reveal } from "../components/animated.jsx";
 import EmptyState from "../components/ui/EmptyState.jsx";
 
 const PROGRESS_STEPS = [
@@ -105,7 +106,7 @@ export default function Audit() {
 
   return (
     <div className="space-y-5">
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
         <h1 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-[28px]">SEO Audit</h1>
         <p className="mt-1 text-[15px] text-muted">
           Paste any public URL. RankVista fetches the page, runs the checks, and
@@ -113,6 +114,7 @@ export default function Audit() {
         </p>
       </motion.div>
 
+      <Reveal delay={0.05}>
       <Card>
         <CardBody>
           <form onSubmit={submit} className="flex flex-col gap-3 sm:flex-row">
@@ -137,6 +139,13 @@ export default function Audit() {
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
               {PROGRESS_STEPS[step]}
             </p>
+            <div className="mt-3 h-1 overflow-hidden rounded-full bg-wash" aria-hidden>
+              <motion.div
+                className="h-full w-1/3 rounded-full bg-primary"
+                animate={{ x: ["-100%", "300%"] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </div>
           )}
           {error && !loading && (
             <p className="mt-3 rounded-lg bg-critical-soft px-3 py-2.5 text-sm text-critical" role="alert">
@@ -145,6 +154,7 @@ export default function Audit() {
           )}
         </CardBody>
       </Card>
+      </Reveal>
 
       {!result && !loading && !error && (
         <Card>

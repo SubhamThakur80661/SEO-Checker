@@ -35,15 +35,16 @@ function ProtectedRoute() {
 function Shell() {
   const location = useLocation();
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="relative min-h-screen bg-paper">
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-lime-100/70 via-lime-50/40 to-transparent" />
       <Sidebar />
       <Topbar />
       <main className="pb-20 md:ml-60 md:pb-10">
         <motion.div
           key={location.pathname}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 14, scale: 0.997 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 26, mass: 0.9 }}
           className="mx-auto max-w-5xl px-4 pt-5 sm:px-6 sm:pt-8"
         >
           <Outlet />

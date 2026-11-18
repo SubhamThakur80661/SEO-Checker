@@ -9,6 +9,7 @@ import { Card, CardHeader, CardBody } from "../components/ui/Card.jsx";
 import Button from "../components/ui/Button.jsx";
 import EmptyState from "../components/ui/EmptyState.jsx";
 import { scoreTone } from "../components/ui/ScoreRing.jsx";
+import { CountUp, TiltCard, Reveal } from "../components/animated.jsx";
 
 function greeting() {
   const h = new Date().getHours();
@@ -82,7 +83,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-5">
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
         <h1 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-[28px]">
           {greeting()}, {user?.name || "there"}
         </h1>
@@ -102,6 +103,7 @@ export default function Dashboard() {
       )}
 
       {/* Quick audit */}
+      <Reveal delay={0.05}>
       <Card>
         <CardBody>
           <form onSubmit={quickAudit} className="flex flex-col gap-3 sm:flex-row">
@@ -122,6 +124,7 @@ export default function Dashboard() {
           </form>
         </CardBody>
       </Card>
+      </Reveal>
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -130,22 +133,29 @@ export default function Dashboard() {
           { icon: Gauge, label: "Average score", value: loading ? "…" : stats.avg ?? "—", sub: loading ? "…" : stats.avg != null ? scoreTone(stats.avg).label : "no audits yet" },
           { icon: TrendingUp, label: "Latest score", value: loading ? "…" : stats.latest ?? "—", sub: loading ? "…" : stats.latest != null ? scoreTone(stats.latest).label : "no audits yet" },
           { icon: KeyRound, label: "Keyword searches", value: loading ? "…" : stats.keywords, sub: "topics explored" },
-        ].map(({ icon: Icon, label, value, sub }) => (
-          <Card key={label}>
-            <CardBody className="py-4">
-              <div className="flex items-center gap-2 text-muted">
-                <Icon className="h-4 w-4" aria-hidden />
-                <p className="text-[13px] font-medium">{label}</p>
-              </div>
-              <p className="tabular mt-1.5 font-display text-[28px] font-bold leading-none text-ink">{value}</p>
-              <p className="mt-1.5 text-xs text-faint">{sub}</p>
-            </CardBody>
-          </Card>
+        ].map(({ icon: Icon, label, value, sub }, i) => (
+          <Reveal key={label} delay={0.08 + i * 0.06} className="h-full">
+            <TiltCard max={6} className="h-full">
+              <Card className="h-full transition-shadow duration-300 hover:shadow-lg" data-rv="stat-card">
+                <CardBody className="py-4">
+                  <div className="flex items-center gap-2 text-muted">
+                    <Icon className="h-4 w-4" aria-hidden />
+                    <p className="text-[13px] font-medium">{label}</p>
+                  </div>
+                  <p className="tabular mt-1.5 font-display text-[28px] font-bold leading-none text-ink">
+                    {typeof value === "number" ? <CountUp value={value} /> : value}
+                  </p>
+                  <p className="mt-1.5 text-xs text-faint">{sub}</p>
+                </CardBody>
+              </Card>
+            </TiltCard>
+          </Reveal>
         ))}
       </div>
 
       {/* Trend */}
       {trend.length >= 2 && (
+        <Reveal delay={0.15}>
         <Card>
           <CardHeader title="Score trend" subtitle="Your audit scores over time" />
           <CardBody>
@@ -159,15 +169,23 @@ export default function Dashboard() {
                     labelFormatter={(_, payload) => payload?.[0]?.payload?.url || ""}
                     contentStyle={{ borderRadius: 10, border: "1px solid #E5E7E0", fontSize: 13 }}
                   />
-                  <Area type="monotone" dataKey="score" stroke="#4D7C0F" strokeWidth={2} fill="#4D7C0F" fillOpacity={0.12} />
+                  <defs>
+                    <linearGradient id="rvTrendFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#4D7C0F" stopOpacity={0.28} />
+                      <stop offset="100%" stopColor="#4D7C0F" stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="score" stroke="#4D7C0F" strokeWidth={2.5} fill="url(#rvTrendFill)" animationDuration={900} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </CardBody>
         </Card>
+        </Reveal>
       )}
 
       {/* Recent audits */}
+      <Reveal delay={0.2}>
       <Card>
         <CardHeader
           title="Recent audits"
@@ -190,10 +208,15 @@ export default function Dashboard() {
           />
         ) : (
           <ul className="divide-y divide-line">
-            {audits.slice(0, 5).map((a) => {
+            {audits.slice(0, 5).map((a, i) => {
               const tone = scoreTone(a.seoScore);
               return (
-                <li key={a._id}>
+                <motion.li
+                  key={a._id}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.25 + i * 0.05, duration: 0.35 }}
+                >
                   <Link
                     to={`/history/${a._id}`}
                     className="flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-wash/60"
@@ -212,12 +235,13 @@ export default function Dashboard() {
                     </span>
                     <ArrowRight className="h-4 w-4 shrink-0 text-faint" aria-hidden />
                   </Link>
-                </li>
+                </motion.li>
               );
             })}
           </ul>
         )}
       </Card>
+      </Reveal>
     </div>
   );
 }

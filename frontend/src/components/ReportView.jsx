@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { motion } from "motion/react";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -16,6 +17,7 @@ import {
 import ScoreRing, { scoreTone } from "./ui/ScoreRing.jsx";
 import Badge from "./ui/Badge.jsx";
 import { Card, CardHeader, CardBody } from "./ui/Card.jsx";
+import { Reveal } from "./animated.jsx";
 
 /**
  * Normalizes the two report shapes the API produces into one:
@@ -117,12 +119,17 @@ function capReason(report) {
   return `Score capped at ${seo.score} (uncapped: ${seo.uncappedScore}).`;
 }
 
-function CheckRow({ check }) {
+function CheckRow({ check, index = 0 }) {
   const [open, setOpen] = useState(false);
   const meta = STATUS[check.status] || STATUS.info;
   const Icon = meta.icon;
   return (
-    <li className="border-b border-line last:border-b-0">
+    <motion.li
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: Math.min(index * 0.04, 0.4), duration: 0.3 }}
+      className="border-b border-line last:border-b-0"
+    >
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -159,7 +166,7 @@ function CheckRow({ check }) {
           aria-hidden
         />
       </button>
-    </li>
+    </motion.li>
   );
 }
 
@@ -184,15 +191,18 @@ function CategorySection({ category, filter }) {
       />
       <div className="px-5 pb-2">
         <div className="h-2 overflow-hidden rounded-full bg-wash" role="presentation">
-          <div
-            className="h-full rounded-full transition-all duration-500"
-            style={{ width: `${category.score}%`, background: tone.ring }}
+          <motion.div
+            className="h-full rounded-full"
+            style={{ background: tone.ring }}
+            initial={{ width: 0 }}
+            animate={{ width: `${category.score}%` }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
           />
         </div>
       </div>
       <ul className="pb-2">
-        {checks.map((c) => (
-          <CheckRow key={c.id} check={c} />
+        {checks.map((c, i) => (
+          <CheckRow key={c.id} check={c} index={i} />
         ))}
       </ul>
     </Card>
@@ -236,6 +246,7 @@ export default function ReportView({ report: raw }) {
   return (
     <div className="space-y-5">
       {/* Score header */}
+      <Reveal>
       <Card>
         <CardBody className="flex flex-col gap-6 sm:flex-row sm:items-center">
           <ScoreRing score={seo.score || 0} />
@@ -264,8 +275,10 @@ export default function ReportView({ report: raw }) {
           </div>
         </CardBody>
       </Card>
+      </Reveal>
 
       {/* Page facts */}
+      <Reveal delay={0.1}>
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
         <MetaItem icon={Globe} label="Status" value={site.statusCode ? `HTTP ${site.statusCode}` : "—"} />
         <MetaItem icon={Timer} label="Load time" value={formatMs(site.loadTimeMs)} />
@@ -284,14 +297,21 @@ export default function ReportView({ report: raw }) {
         {site.pageSizeBytes != null && <MetaItem icon={FileText} label="Page size" value={formatBytes(site.pageSizeBytes)} />}
         {site.lang && <MetaItem icon={Globe} label="Language" value={site.lang} />}
       </div>
+      </Reveal>
 
       {/* Top fixes */}
       {recommendations.length > 0 && (
         <Card>
           <CardHeader title="Top fixes" subtitle="The highest-impact changes first" />
           <CardBody className="space-y-3">
-            {recommendations.map((rec) => (
-              <div key={rec.checkId} className="rounded-lg border border-line p-4">
+            {recommendations.map((rec, i) => (
+              <motion.div
+                key={rec.checkId}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.07, duration: 0.35 }}
+                className="rounded-lg border border-line p-4 transition-shadow duration-300 hover:shadow-md"
+              >
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge tone={rec.priority === "high" ? "critical" : rec.priority === "medium" ? "warning" : "info"}>
                     {rec.priority === "high" ? "High priority" : rec.priority === "medium" ? "Medium priority" : "Low priority"}
@@ -303,7 +323,7 @@ export default function ReportView({ report: raw }) {
                   <span className="font-semibold text-primary-dark">Do this: </span>
                   {rec.fix}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </CardBody>
         </Card>
@@ -319,11 +339,18 @@ export default function ReportView({ report: raw }) {
               role="tab"
               aria-selected={filter === t.id}
               onClick={() => setFilter(t.id)}
-              className={`cursor-pointer rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                filter === t.id ? "bg-sidebar text-white" : "bg-wash text-ink-soft hover:bg-line"
+              className={`relative cursor-pointer rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                filter === t.id ? "text-white" : "bg-wash text-ink-soft hover:bg-line"
               }`}
             >
-              {t.label}
+              {filter === t.id && (
+                <motion.span
+                  layoutId="rv-filter-pill"
+                  className="absolute inset-0 rounded-full bg-sidebar"
+                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                />
+              )}
+              <span className="relative">{t.label}</span>
             </button>
           ))}
         </div>
