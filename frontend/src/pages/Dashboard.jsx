@@ -127,8 +127,8 @@ export default function Dashboard() {
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
           { icon: SearchCheck, label: "Audits run", value: loading ? "…" : stats.total, sub: "all time" },
-          { icon: Gauge, label: "Average score", value: loading ? "…" : stats.avg ?? "—", sub: stats.avg != null ? scoreTone(stats.avg).label : "no audits yet" },
-          { icon: TrendingUp, label: "Latest score", value: loading ? "…" : stats.latest ?? "—", sub: stats.latest != null ? scoreTone(stats.latest).label : "no audits yet" },
+          { icon: Gauge, label: "Average score", value: loading ? "…" : stats.avg ?? "—", sub: loading ? "…" : stats.avg != null ? scoreTone(stats.avg).label : "no audits yet" },
+          { icon: TrendingUp, label: "Latest score", value: loading ? "…" : stats.latest ?? "—", sub: loading ? "…" : stats.latest != null ? scoreTone(stats.latest).label : "no audits yet" },
           { icon: KeyRound, label: "Keyword searches", value: loading ? "…" : stats.keywords, sub: "topics explored" },
         ].map(({ icon: Icon, label, value, sub }) => (
           <Card key={label}>

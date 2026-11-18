@@ -1,3 +1,4 @@
+import { Component } from "react";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
 import { Loader2 } from "lucide-react";
@@ -54,8 +55,42 @@ function Shell() {
   );
 }
 
+// Catches render crashes anywhere in the app and shows a reload screen
+// instead of a blank white page (the 2026-11-18 dashboard crash had no
+// boundary, so one null read wiped the whole tree).
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#F7F7F2", padding: 16 }}>
+          <div style={{ maxWidth: 420, textAlign: "center" }}>
+            <h1 style={{ fontSize: 20, fontWeight: 700, color: "#1A1D1A" }}>Something went wrong</h1>
+            <p style={{ marginTop: 8, fontSize: 14, color: "#5C665F" }}>The page hit an unexpected error. Reloading usually fixes it.</p>
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              style={{ marginTop: 16, height: 44, padding: "0 20px", borderRadius: 8, border: "none", background: "#4D7C0F", color: "#fff", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
+            >
+              Reload the page
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function App() {
   return (
+    <ErrorBoundary>
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
@@ -71,5 +106,6 @@ export default function App() {
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </ErrorBoundary>
   );
 }
